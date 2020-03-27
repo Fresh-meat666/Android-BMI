@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">BMI</string>
 
-    <string name="bmi_height">Height (cm)</string>
-    <string name="bmi_weight">Weight (kg)</string>
+    <string name="bmi_height">Height</string>
+    <string name="bmi_weight">Weight (lb)</string>
     <string name="bmi_btn">See BMI Report Now</string>
     <string name="bmi_result">Your BMI value is</string>
-    <string name="bmi_warning">Height/Weight cannot be empty.</string>
+    <string name="bmi_warning">Weight cannot be empty.</string>
     <string name="advice_light">You need more calories!</string>
     <string name="advice_average">You look great!</string>
     <string name="advice_heavy">You should be on diet!</string>
@@ -16,5 +16,30 @@
     <string name="menu_wiki">BMI Wiki</string>
     <string name="menu_exit">Exit</string>
     <string name="ok">OK</string>
+
+    <string-array name="feet">
+        <item>1 Foot</item>
+        <item>2 Feet</item>
+        <item>3 Feet</item>
+        <item>4 Feet</item>
+        <item>5 Feet</item>
+        <item>6 Feet</item>
+        <item>7 Feet</item>
+        <item>8 Feet</item>
+    </string-array>
+    <string-array name="inches">
+        <item>0 Inch</item>
+        <item>1 Inch</item>
+        <item>2 Inches</item>
+        <item>3 Inches</item>
+        <item>4 Inches</item>
+        <item>5 Inches</item>
+        <item>6 Inches</item>
+        <item>7 Inches</item>
+        <item>8 Inches</item>
+        <item>9 Inches</item>
+        <item>10 Inches</item>
+        <item>11 Inches</item>
+    </string-array>
 
 </resources>

@@ -16,8 +16,8 @@ public class ReportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_report);
 
         Bundle bundle = getIntent().getExtras();
-        double height = Double.parseDouble(bundle.getString("height")) / 100;
-        double weight = Double.parseDouble(bundle.getString("weight"));
+        double height = (bundle.getInt("feet") * 12 + bundle.getInt("inches"))*0.0254;
+        double weight = Double.parseDouble(bundle.getString("weight"))*0.45359;
         double bmi = weight / (height * height);
         DecimalFormat nf = new DecimalFormat("0.00");
         TextView result = (TextView) findViewById(R.id.resultTV);
@@ -27,9 +27,11 @@ public class ReportActivity extends AppCompatActivity {
         TextView advice = (TextView) findViewById(R.id.adviceTV);
         if (bmi > 25) {
             image.setImageResource(R.drawable.bot_fat);
+            image.animate().scaleX(1.5f).scaleY(1.5f).setDuration(4000);
             advice.setText(R.string.advice_heavy);
         } else if (bmi < 20) {
             image.setImageResource(R.drawable.bot_thin);
+            image.animate().scaleX(0.5f).scaleY(0.5f).setDuration(4000);
             advice.setText(R.string.advice_light);
         } else {
             image.setImageResource(R.drawable.bot_fit);
