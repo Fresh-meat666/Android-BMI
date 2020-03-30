@@ -3,6 +3,7 @@ package com.example.bmi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -12,93 +13,34 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    EditText vHeight, vWeight;
-    Button submitButton;
-    Button aboutButton;
-    ImageView mImageView;
+    // save the data user inputs
+    public void savePreferences(int f, int i, String w) {
+        SharedPreferences pref = getSharedPreferences("BMI", MODE_PRIVATE);
+        pref.edit().putInt("feet", f).commit();
+        pref.edit().putInt("inches", i).commit();
+        pref.edit().putString("weight", w).commit();
+    }
 
-    /**
-     public void savePreferences(String h, String w) {
-     SharedPreferences pref = getSharedPreferences("BMI", MODE_PRIVATE);
-     pref.edit().putString("height", h).apply();
-     pref.edit().putString("weight", w).apply();
-     }
+    public void loadPreferences() {
+        SharedPreferences pref = getSharedPreferences("BMI", MODE_PRIVATE);
+        spinnerFeet.setSelection(pref.getInt("feet", 0));
+        spinnerInches.setSelection(pref.getInt("inches", 0));
+        vWeight.setText(pref.getString("weight", "0"));
+    }
 
-     public void loadPreferences() {
-     SharedPreferences pref = getSharedPreferences("BMI", MODE_PRIVATE);
-     vHeight.setText(pref.getString("height", "0"));
-     vWeight.setText(pref.getString("weight", "0"));
-     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadPreferences();
+    }
 
-     @Override protected void onStart() {
-     super.onStart();
-     loadPreferences();
-     }
-     */
-
-    /**
-     * @Override protected void onCreate(Bundle savedInstanceState) {
-     * super.onCreate(savedInstanceState);
-     * setContentView(R.layout.activity_main);
-     * <p>
-     * //-- get views
-     * vHeight = (EditText) findViewById(R.id.heightET);
-     * vWeight = (EditText) findViewById(R.id.weightET);
-     * submitButton = (Button) findViewById(R.id.reportBtn);
-     * aboutButton = (Button) findViewById(R.id.aboutBtn);
-     * mImageView = (ImageView) findViewById(R.id.imageView);
-     * registerForContextMenu(mImageView);
-     * <p>
-     * <p>
-     * submitButton.setOnClickListener(new View.OnClickListener() {
-     * @Override public void onClick(View v) {
-     * String height = vHeight.getText().toString();
-     * String weight = vWeight.getText().toString();
-     * if (height.equals("") || weight.equals("")) {
-     * Toast.makeText(MainActivity.this, R.string.bmi_warning,
-     * Toast.LENGTH_LONG).show();
-     * } else {
-     * Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
-     * Bundle bundle = new Bundle();
-     * bundle.putString("height", height);
-     * bundle.putString("weight", weight);
-     * intent.putExtras(bundle);
-     * startActivity(intent);
-     * }
-     * savePreferences(height, weight);
-     * }
-     * });
-     * <p>
-     * aboutButton.setOnClickListener(new View.OnClickListener() {
-     * @Override public void onClick(View v) {
-     * AlertDialog.Builder builder =
-     * new AlertDialog.Builder(MainActivity.this);
-     * builder.setTitle(R.string.about_button);
-     * builder.setMessage(R.string.about_msg);
-     * builder.setPositiveButton("OK",
-     * new DialogInterface.OnClickListener() {
-     * @Override public void onClick(DialogInterface dialog, int which) {
-     * }
-     * });
-     * builder.create();
-     * builder.show();
-     * }
-     * });
-     * }
-     */
-
-    /**
-     * Called when the activity is first created.
-     */
-
+    EditText vWeight;
     String[] feetArray, inchesArray;
     int feet, inches;
     Spinner spinnerFeet, spinnerInches;
@@ -109,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         vWeight = (EditText) findViewById(R.id.weight);
+
         feetArray = getResources().getStringArray(R.array.feet);
         inchesArray = getResources().getStringArray(R.array.inches);
         spinnerFeet = (Spinner) findViewById(R.id.spinner_feet);
@@ -143,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void calcBMI(View view) {
         String weight = vWeight.getText().toString();
+
+        savePreferences(feet-1, inches, weight);
+
         Intent intent = new Intent(this, ReportActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("feet", feet);
